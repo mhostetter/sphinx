@@ -713,7 +713,10 @@ def stringify_signature(sig: inspect.Signature, show_annotation: bool = True,
                 arg.write(' = ')
             else:
                 arg.write('=')
-            arg.write(object_description(param.default))
+            if isclass(param.default):
+                arg.write(stringify_annotation(param.default, mode))
+            else:
+                arg.write(object_description(param.default))
 
         args.append(arg.getvalue())
         last_kind = param.kind
